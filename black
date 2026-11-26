@@ -1,0 +1,13 @@
+#!/bin/bash
+# black on|off|toggle|status|quit
+# 감마로 화면만 검게 만든다 (스크린샷/캡처는 정상). 해제: Esc 3번 또는 Ctrl+Opt+Cmd+B 또는 black off
+APP="$HOME/Applications/Black Screen.app"
+BIN="$APP/Contents/MacOS/BlackScreen"
+running() { pgrep -x BlackScreen >/dev/null; }
+case "$1" in
+  status) "$BIN" status; exit 0 ;;
+  on|toggle) if running; then "$BIN" "$1"; else open -a "$APP"; fi ;;
+  off|quit) "$BIN" "$1" ;;
+  *) echo "usage: black on|off|toggle|status|quit"; exit 1 ;;
+esac
+sleep 1; [ "$1" = quit ] || "$BIN" status
